@@ -1,0 +1,31 @@
+<html>
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title> FSE 301 MVP </title> 
+</head>
+
+<script type="text/javascript" src="MVP.js"></script>
+
+<head>
+<style>
+p {
+	text-align: center;
+	font-size: 75px;
+}
+</style>
+</head>
+
+<body>
+<form action="javascript:startTimer();")>
+	Hours: <input type="number" name="hour" id="hourField" value=0><br>
+	Minutes: <input type="number" name="minute" id="minuteField" value=0><br>
+	Seconds: <input type="number" name="second" id="secondField" value=0><br>
+</form>
+<button id="addInterval">Add Interval</button>
+<button id="startTime">Start Timer</button>
+
+<p id="TimerOutput"></p>
+<p id="queue"></p>
+</body>
+</html>

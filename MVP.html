@@ -7,25 +7,31 @@
 
 <script type="text/javascript" src="MVP.js"></script>
 
-<head>
-<style>
-p {
-	text-align: center;
-	font-size: 75px;
-}
-</style>
-</head>
 
 <body>
 <form action="javascript:startTimer();")>
 	Hours: <input type="number" name="hour" id="hourField" value=0><br>
 	Minutes: <input type="number" name="minute" id="minuteField" value=0><br>
 	Seconds: <input type="number" name="second" id="secondField" value=0><br>
+	Website to go to: <input name="URL" id="nextURL" value="www.google.com"><br>
+	Change my website when time tuns out: <input type="checkbox" name="redicectBox" id="urlChange"><br>
 </form>
 <button id="addInterval">Add Interval</button>
 <button id="startTime">Start Timer</button>
 
-<p id="TimerOutput"></p>
-<p id="queue"></p>
+<style>
+p{
+	text-align: center;
+	font-size: 70px;
+}
+</style>
+
+<p id="TimerOutput">
+</p>
+
+<p>
+<font size="5" id="queue"></font>
+</p>
+
 </body>
 </html>

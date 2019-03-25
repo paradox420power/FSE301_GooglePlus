@@ -1,6 +1,7 @@
 
 var intervalQueue = [];
 var userWin;
+var alertPlaying = false; //don't layer alert sounds
 
 window.onload = function init(){
 	var hours = 0;
@@ -129,27 +130,61 @@ function startTimer(){
 		
 		// If the count down is finished, write some text
 		if (timeUp) {
-			if(intervalQueue.length > 0){
-				//update timer
-				hoursLeft = intervalQueue[0].hour;
-				minutesLeft = intervalQueue[0].minute;
-				secondsLeft = intervalQueue[0].second;
-				output = hoursLeft + "h " + minutesLeft + "m " + secondsLeft + "s ";
-				//check if the url should be changed
-				if(intervalQueue[0].redirect === true){
-					var jumpTo = makeValidURL(intervalQueue[0].url) + "";
-					userWin.location.href = jumpTo;
-				}
-				document.getElementById("TimerOutput").innerHTML = output;
-				document.title = output;
-				timeUp = false;
-				intervalQueue.shift();
-				writeQueue();
-			}else{
-				clearInterval(x);
-				document.getElementById("TimerOutput").innerHTML = "EXPIRED";
-				userWin.close();
+			
+			var context = new AudioContext(); //create a simple alarm to notify the user time is up
+			var o = context.createOscillator();
+			o.type = "sine";
+			o.frequency.value = 830; //pick a semi-annoying frequency
+			o.connect(context.destination);
+			if(!alertPlaying){
+				o.start(); //start the timer only once
+				alertPlaying = true;
 			}
+			if(document.hidden)
+				console.log("NOT HERE");
+			else
+				console.log("LOOKING");
+			
+			if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
+				o.stop(); //stop the "doooo" here
+				alertPlaying = false;
+				if(intervalQueue.length > 0){
+					//update timer
+					hoursLeft = intervalQueue[0].hour;
+					minutesLeft = intervalQueue[0].minute;
+					secondsLeft = intervalQueue[0].second;
+					output = hoursLeft + "h " + minutesLeft + "m " + secondsLeft + "s ";
+					//check if the url should be changed
+					if(intervalQueue[0].redirect === true){
+						var jumpTo = makeValidURL(intervalQueue[0].url) + "";
+						userWin.location.href = jumpTo;
+					}
+					document.getElementById("TimerOutput").innerHTML = output;
+					document.title = output;
+					timeUp = false;
+					intervalQueue.shift();
+					writeQueue();
+				}else{
+					clearInterval(x);
+					document.getElementById("TimerOutput").innerHTML = "EXPIRED";
+					userWin.close();
+				}
+				
+			}else{//user snoozed, give them 5 more minutes
+				if(document.hidden){ //make sure it didn't just auto-reject the alert
+					o.stop(); //stop the "doooo" here
+					alertPlaying = false;
+					minutesLeft = 5;
+					output = hoursLeft + "h " + minutesLeft + "m " + secondsLeft + "s ";
+					document.getElementById("TimerOutput").innerHTML = output;
+					document.title = output;
+					timeUp = false;
+					writeQueue;
+				}
+			}
+			
+			
+			
 		}
 	}, 1000);
 }

@@ -97,6 +97,24 @@ input[type=text] {
     font-weight: bold;
 }
 
+.remove {
+    text-align: center;
+    padding-left: 13%;
+}
+
+.removedSelected {
+    width: 20%;
+    border: 0;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.removedSelected:hover {
+    background: white;
+    color: black;
+    font-weight: bold;
+}
 
 
 

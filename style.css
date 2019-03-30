@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    background: #FFB727 url("images/WebsiteBackground.jpg") no-repeat center; 
+    background-attachment: fixed;
+    color: white;
+    background-size: cover;
+}
+
+.toolBar {
+    overflow: hidden;
+    /*background-color: #FFB727;*/
+}
+
+.toolBar a{
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    width: 30%
+}
+
+.toolBar a:hover {
+    background-color: white;
+    font-weight: bold;
+    color: black;
+}
+
+.toolBar a:active {
+    background-color: #FFB727;
+    color: white;
+    font-weight: normal;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.mainDiv {
+    max-width: 500px;
+    margin: 2em auto;
+    padding: 2rem;
+    text-align: left;
+}
+
+.timerStuff label {
+    font-size: 20px;
+}
+
+.timerStuff input[type=number] {
+    width: 15%;
+}
+
+.timerStuff input[type=website] {
+    width: 65%;
+    font-size: 17px;
+}
+
+.timerStuff input[type=CheckBox] {
+    width: 10%;
+    cursor: pointer;
+}
+
+.timerStuff input {
+    margin: 5px;
+}
+
+.intButton {
+    width: 47%;
+    border: 0;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.intButton:hover {
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+.startButton {
+    width: 46%;
+    border: 0;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.startButton:hover {
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+.about {
+    max-width: 500px;
+    margin: auto;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+    margin-top: 0;
+}
+
+p {
+	text-align: center;
+    font-size: 70px;
+    color: black;
+}
+
+footer {
+    position: fixed; 
+    bottom: 0; 
+    width:100%; 
+    text-align: center;
+}
+

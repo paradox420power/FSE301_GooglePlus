@@ -1,4 +1,3 @@
-
 var intervalQueue = [];
 var userWin;
 var alertPlaying = false; //don't layer alert sounds

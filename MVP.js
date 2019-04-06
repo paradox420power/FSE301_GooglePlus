@@ -3,6 +3,7 @@ var intervalQueue = [];
 var userWin = null;
 var alertPlaying = false; //don't layer alert sounds
 var moreTimeIntervals = false;
+var inView = true;
 
 window.onload = function init(){
 	var hours = 0;
@@ -25,6 +26,14 @@ window.onload = function init(){
 		addToHead();
 		startTimer();
 	};
+	
+	document.addEventListener("visibilitychange", function() {
+		inView = !inView;
+		if(inView)
+			console.log( "Focus" );
+		else
+			console.log( "hidden" );
+	});
 	
 }
 
@@ -132,6 +141,8 @@ function startTimer(){
 	if(intervalQueue[0].redirect === true){
 		var startURL = makeValidURL(intervalQueue[0].url) + "";
 		userWin = window.open(makeValidURL(startURL), '_blank');
+	}else{
+		userWin = null;
 	}
 	
 	intervalQueue.shift();
@@ -191,7 +202,8 @@ function updateTimer(){
 function endTimer(){
 	document.getElementById("TimerOutput").innerHTML = "EXPIRED";
 	document.title = "EXPIRED";
-	userWin.close();
+	if(userWin !== null)
+		userWin.close();
 }
 
 function killMe(){
@@ -201,37 +213,37 @@ function killMe(){
 	o.type = "sine";
 	o.frequency.value = 830; //pick a semi-annoying frequency
 	o.connect(context.destination);
+	console.log("run start");
 	if(!alertPlaying){
 		o.start(); //start the timer only once
 		alertPlaying = true;
 	}
 	
-	
-	if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
-		notSeen = false;
-		o.stop(); //stop the "doooo" here
-		alertPlaying = false;
-		notSeen = false;
-		if(intervalQueue.length > 0){
+	x = setTimeout(function(){
+		o.stop();
+		if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
+			//o.stop(); //stop the "doooo" here
+			alertPlaying = false;
+			if(intervalQueue.length > 0){
+				startTimer();
+			}else{
+				endTimer();
+			}
+		
+		}else{//user snoozed, give them 5 more minutes
+			//o.stop(); //stop the "doooo" here
+			alertPlaying = false;
+			let nextInterval = {
+				hour: 0,
+				minute: 5,
+				second: 0,
+				redirect: false,
+				url: ""
+			};
+			intervalQueue.unshift(nextInterval);
 			startTimer();
-		}else{
-			endTimer();
 		}
-	
-	}else{//user snoozed, give them 5 more minutes
-		notSeen = false;
-		o.stop(); //stop the "doooo" here
-		alertPlaying = false;
-		notSeen = false;
-		let nextInterval = {
-			hour: 0,
-			minute: 5,
-			second: 0,
-			redirect: false,
-			url: ""
-		};
-		intervalQueue.unshift(nextInterval);
-		startTimer();
-	}
+		
+	}, 4000);
 	
 }

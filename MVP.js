@@ -1,6 +1,6 @@
 
 var intervalQueue = [];
-var userWin;
+var userWin = null;
 var alertPlaying = false; //don't layer alert sounds
 var moreTimeIntervals = false;
 
@@ -22,7 +22,6 @@ window.onload = function init(){
 	};
 	document.getElementById("startTime").onclick = function(){
 		var startURL = document.getElementById("nextURL").value;
-		userWin = window.open(makeValidURL(startURL), '_blank');
 		addToHead();
 		startTimer();
 	};
@@ -37,7 +36,7 @@ function addInterval(){
 	redirects = document.getElementById("urlChange").checked;
 	nextURL = document.getElementById("nextURL").value;
 	
-	if(hours != 0 || minutes != 0 || seconds != 0){ //push non-empty
+	if(hours > 0 || minutes > 0 || seconds >= 0){ //push non-empty
 		let nextInterval = {
 			hour: hours,
 			minute: minutes,
@@ -129,10 +128,12 @@ function startTimer(){
 	hours = intervalQueue[0].hour;
 	minutes = intervalQueue[0].minute;
 	seconds = intervalQueue[0].second;
+	
 	if(intervalQueue[0].redirect === true){
-		var jumpTo = makeValidURL(intervalQueue[0].url) + "";
-		userWin.location.href = jumpTo;
+		var startURL = makeValidURL(intervalQueue[0].url) + "";
+		userWin = window.open(makeValidURL(startURL), '_blank');
 	}
+	
 	intervalQueue.shift();
 	var theList = document.getElementById("timerList");
 	theList.remove(0);
@@ -205,48 +206,32 @@ function killMe(){
 		alertPlaying = true;
 	}
 	
-	let entryTick, exitTick, date;
-	let notSeen = true;
 	
-	while(notSeen){
-		
-		date = new Date();
-		entryTick = exitTick = date.getTime();
-		console.log(document.hidden);
-		
-		
-		if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
-			notSeen = false;
-			o.stop(); //stop the "doooo" here
-			alertPlaying = false;
-			notSeen = false;
-			if(intervalQueue.length > 0){
-				startTimer();
-			}else{
-				endTimer();
-			}
-		
-		}else{//user snoozed, give them 5 more minutes
-			notSeen = false;
-			o.stop(); //stop the "doooo" here
-			alertPlaying = false;
-			notSeen = false;
-			let nextInterval = {
-				hour: 0,
-				minute: 5,
-				second: 0,
-				redirect: false,
-				url: ""
-			};
-			intervalQueue.unshift(nextInterval);
+	if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
+		notSeen = false;
+		o.stop(); //stop the "doooo" here
+		alertPlaying = false;
+		notSeen = false;
+		if(intervalQueue.length > 0){
 			startTimer();
+		}else{
+			endTimer();
 		}
-		
-		date = new Date();
-		exitTick = date.getTime();
-		while(entryTick > exitTick - 1000 && document.hidden){
-			date = new Date();
-			exitTick = date.getTime();
-		}
+	
+	}else{//user snoozed, give them 5 more minutes
+		notSeen = false;
+		o.stop(); //stop the "doooo" here
+		alertPlaying = false;
+		notSeen = false;
+		let nextInterval = {
+			hour: 0,
+			minute: 5,
+			second: 0,
+			redirect: false,
+			url: ""
+		};
+		intervalQueue.unshift(nextInterval);
+		startTimer();
 	}
+	
 }

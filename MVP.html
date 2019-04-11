@@ -2,38 +2,61 @@
 
 <head> 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-<title> FSE 301 MVP </title> 
+<link rel="stylesheet" href="style.css">
+<title>Time Trackers Home</title> 
 </head>
 
 <script type="text/javascript" src="MVP.js"></script>
 
 
 <body>
-<form action="javascript:startTimer();")>
-	Hours: <input type="number" name="hour" id="hourField" value=0><br>
-	Minutes: <input type="number" name="minute" id="minuteField" value=0><br>
-	Seconds: <input type="number" name="second" id="secondField" value=0><br>
-	Website to go to: <input name="URL" id="nextURL" value="www.google.com"><br>
-	Change my website when time tuns out: <input type="checkbox" name="redicectBox" id="urlChange"><br>
-</form>
-<button id="addInterval">Add Interval</button>
-<button id="startTime">Start Timer</button>
-
-<style>
-p{
-	text-align: center;
-	font-size: 70px;
-}
-</style>
+	<div class="top">
+		<h1>Time Trackers</h1>
+	</div>
+	<div class="toolBar">
+		<a style="float:left" class="active" href="MVP.html">Home</a>
+		<a style="float:left" href="about.html">About</a>
+		<a style="float:right" href="howTo.html">How To</a>
+	</div>
+	<div class="mainDiv">
+		<form class="timerStuff" action="javascript:startTimer();")>
+			<label for="Hours">Hours: </label>
+			<input type="number" name="hour" id="hourField" value=0>
+			<label for="Minutes">Minutes: </label>
+			<input type="number" name="minute" id="minuteField" value=10>
+			<label for="Seconds">Seconds: </label>
+			<input type="number" name="second" id="secondField" value=0><br>
+			<button id="hideFeatures">Show/Hide Advance Features</button>
+			<div id="webRedirectDiv">
+				<label for="Website">Website to go to: </label>
+				<input type="website" name="URL" id="nextURL" value="www.google.com"><br>
+				<label for="CheckBox">Change my website when time runs out: </label>
+				<input type="checkbox" name="redicectBox" id="urlChange"><br>
+			</div>
+		</form>
+		
+		<div id="addIntervalDiv">
+			<button class="intButton" id="addInterval">Add Interval</button>
+		</div><br>
+		<button class="startButton" id="startTime">Start Timer</button>
+	</div>
 
 <p id="TimerOutput">
 </p>
 
 <p>
+<div id="myQueueDiv">
 <font size="5" id="queue"></font>
-<select id="timerList" size="8"></select>
-<button id="removeSelected">Remove Selected Time</button>
+	<div class="remove">
+		<button class="removedSelected" id="removeSelected">Remove Selected Time</button>
+		<select class="timerList" id="timerList" size="8"></select>
+	</div>
+</div>
 </p>
 
+
 </body>
+<footer>
+	<h3>&copy;Time Trackers 2019 All Rights Reserved</h3>
+</footer>
 </html>

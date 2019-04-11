@@ -9,8 +9,33 @@ window.onload = function init(){
 	var hours = 0;
 	var minutes = 0;
 	var seconds = 0;
+	document.getElementById("myQueueDiv").style.display = "none";
+	document.getElementById("webRedirectDiv").style.display = "none";
+	document.getElementById("addIntervalDiv").style.display = "none";
 	
 	document.getElementById("TimerOutput").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+	
+	document.getElementById("hideFeatures").onclick = function(){
+		var x = document.getElementById("myQueueDiv");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+		var y = document.getElementById("webRedirectDiv");
+		if (y.style.display === "none") {
+			y.style.display = "block";
+		} else {
+			y.style.display = "none";
+		}
+		var z = document.getElementById("addIntervalDiv");
+		if (z.style.display === "none") {
+			z.style.display = "block";
+		} else {
+			z.style.display = "none";
+		}
+		
+	}
 	
 	document.getElementById("removeSelected").onclick = function(){
 		var list = document.getElementById("timerList");
@@ -35,6 +60,10 @@ window.onload = function init(){
 			console.log( "hidden" );
 	});
 	
+}
+
+function myFunction() {
+  document.getElementById("myQueueDiv").style.visibility = "hidden";
 }
 
 function addInterval(){

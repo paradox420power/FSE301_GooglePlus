@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font-family: Helvetica;
     background: #2182BF; 
     background-attachment: fixed;
     color: black; /* white; */
@@ -8,6 +9,8 @@ body {
 
 .toolBar {
     overflow: hidden;
+    max-width: 100%;
+    display: flex;
     /*background-color: #FFB727;*/
 }
 
@@ -52,7 +55,7 @@ input[type=text] {
 }
 
 .timerStuff input[type=number] {
-    width: 15%;
+    width: 14%;
 }
 
 .timerStuff input[type=website] {
@@ -121,7 +124,7 @@ input[type=text] {
 .about {
     max-width: 500px;
     margin: auto;
-    color: #f2f2f2;
+    color: #000;
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
@@ -141,7 +144,7 @@ p {
 }
 
 footer {
-    position: fixed; 
+    position: relative; 
     bottom: 0; 
     width:100%; 
     text-align: center;

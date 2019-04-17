@@ -273,6 +273,6 @@ function killMe(){
 			startTimer();
 		}
 		
-	}, 4000);
+	}, 2000);
 	
 }

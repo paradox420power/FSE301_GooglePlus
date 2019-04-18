@@ -4,6 +4,7 @@ var userWin = null;
 var alertPlaying = false; //don't layer alert sounds
 var moreTimeIntervals = false;
 var inView = true;
+var notInView = false;
 
 window.onload = function init(){
 	var hours = 0;
@@ -56,6 +57,9 @@ window.onload = function init(){
 		inView = !inView;
 		if(inView)
 			console.log( "Focus" );
+			if(notInView) { // If the user returns from the page, the alert will play when they get back
+				killMe();
+			}
 		else
 			console.log( "hidden" );
 	});
@@ -218,12 +222,29 @@ function updateTimer(){
 		
 		
 		// If the count down is finished, write some text
-		if (timeUp) {
+		if(timeUp) {
+			clearInterval(x);
+			let context = new AudioContext(); //create a simple alarm to notify the user time is up
+			let o = context.createOscillator();
+			o.type = "sine";
+			o.frequency.value = 830; //pick a semi-annoying frequency
+			o.connect(context.destination);
+			console.log("run start");
+			if(!alertPlaying){
+				o.start(); //start the timer only once
+				alertPlaying = true;
+			}
 			
-			killMe();
+			x = setTimeout(function(){
+				o.stop();
+			}, 2000);
 			
+			if (inView) {
+				killMe();
+			} else {
+				notInView = true;
+			}
 		}
-		
 	}, 1000);
 	
 }
@@ -236,43 +257,27 @@ function endTimer(){
 }
 
 function killMe(){
-	clearInterval(x);
-	let context = new AudioContext(); //create a simple alarm to notify the user time is up
-	let o = context.createOscillator();
-	o.type = "sine";
-	o.frequency.value = 830; //pick a semi-annoying frequency
-	o.connect(context.destination);
-	console.log("run start");
-	if(!alertPlaying){
-		o.start(); //start the timer only once
-		alertPlaying = true;
-	}
-	
-	x = setTimeout(function(){
-		o.stop();
-		if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
-			//o.stop(); //stop the "doooo" here
-			alertPlaying = false;
-			if(intervalQueue.length > 0){
-				startTimer();
-			}else{
-				endTimer();
-			}
-		
-		}else{//user snoozed, give them 5 more minutes
-			//o.stop(); //stop the "doooo" here
-			alertPlaying = false;
-			let nextInterval = {
-				hour: 0,
-				minute: 5,
-				second: 0,
-				redirect: false,
-				url: ""
-			};
-			intervalQueue.unshift(nextInterval);
+	notInView = false;
+	if(confirm("Time has expired.\nHit \"OK\" to continue.\nHit \"Cancel\" to snooze for 5 minutes")){ //nested like this will be the "OK" route
+		//o.stop(); //stop the "doooo" here
+		alertPlaying = false;
+		if(intervalQueue.length > 0){
 			startTimer();
+		}else{
+			endTimer();
 		}
-		
-	}, 2000);
-	
+
+	} else{//user snoozed, give them 5 more minutes
+		//o.stop(); //stop the "doooo" here
+		alertPlaying = false;
+		let nextInterval = {
+			hour: 0,
+			minute: 5,
+			second: 0,
+			redirect: false,
+			url: ""
+		};
+		intervalQueue.unshift(nextInterval);
+		startTimer();
+	}
 }

@@ -21,7 +21,7 @@ body {
     text-decoration: none;
     font-size: 17px;
     display: block;
-    width: 30%
+    width: calc(100vw / 3);
 }
 
 .toolBar a:hover {

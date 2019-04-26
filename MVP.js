@@ -5,6 +5,7 @@ var alertPlaying = false; //don't layer alert sounds
 var moreTimeIntervals = false;
 var inView = true;
 var notInView = false;
+var userCancel = false; // Boolean to make sure if the user snoozes the timer, it will not delete the next timer in the list.
 
 window.onload = function init(){
 	var hours = 0;
@@ -177,10 +178,14 @@ function startTimer(){
 	}else{
 		userWin = null;
 	}
-	
+
 	intervalQueue.shift();
-	var theList = document.getElementById("timerList");
-	theList.remove(0);
+	if(userCancel === false) { // If the user snoozes, we don't want to delete the next timer off the list.
+		var theList = document.getElementById("timerList");
+		theList.remove(0);
+	}
+	userCancel = false;
+
 	
 	hoursLeft = hours;
 	minutesLeft = minutes;
@@ -262,6 +267,9 @@ function killMe(){
 		//o.stop(); //stop the "doooo" here
 		alertPlaying = false;
 		if(intervalQueue.length > 0){
+			if(userWin !== null) {
+				userWin.close();
+			}
 			startTimer();
 		}else{
 			endTimer();
@@ -270,10 +278,11 @@ function killMe(){
 	} else{//user snoozed, give them 5 more minutes
 		//o.stop(); //stop the "doooo" here
 		alertPlaying = false;
+		userCancel = true; 
 		let nextInterval = {
 			hour: 0,
-			minute: 5,
-			second: 0,
+			minute: 0, // was 5
+			second: 7, // was 0
 			redirect: false,
 			url: ""
 		};

@@ -119,8 +119,6 @@ input[type=text] {
     font-weight: bold;
 }
 
-
-
 .about {
     max-width: 500px;
     margin: auto;
@@ -150,3 +148,14 @@ footer {
     text-align: center;
 }
 
+.video {
+    max-width: 500px;
+    margin: auto;
+    color: #000;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+
+}

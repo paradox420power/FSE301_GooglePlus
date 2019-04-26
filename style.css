@@ -159,3 +159,7 @@ footer {
     display: block;
 
 }
+
+.advanced {
+    cursor: pointer;
+}

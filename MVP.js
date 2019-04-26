@@ -176,7 +176,9 @@ function startTimer(){
 		var startURL = makeValidURL(intervalQueue[0].url) + "";
 		userWin = window.open(makeValidURL(startURL), '_blank');
 	}else{
-		userWin = null;
+		if(userCancel === false) { // If the user snoozed and still has a window open, when they do press "okay" after 5 minutes, we want it to close
+			userWin = null;
+		}
 	}
 
 	intervalQueue.shift();
@@ -281,8 +283,8 @@ function killMe(){
 		userCancel = true; 
 		let nextInterval = {
 			hour: 0,
-			minute: 0, // was 5
-			second: 7, // was 0
+			minute: 5, 
+			second: 0,
 			redirect: false,
 			url: ""
 		};
